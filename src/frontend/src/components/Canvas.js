@@ -221,8 +221,8 @@ function Canvas(props) {
         backgroundContext.clearRect(0, 0, 2*props.width, 2*props.height);
     };
     const clickHandlerShare = async () => { //Sends a Post request to write in database
-        let canvas = document.getElementById(`canvas${props.canvasId}`); //Get canvas element
-        var image = canvas.toDataURL("image/png").replace("image/png", "image/octet-stream");  // here is the most important part because if you dont replace you will get a DOM 18 exception.
+        var image = backgroundCanvasRef.current.toDataURL("image/png"); 
+
         let res = await axios.post("http://localhost:8080/gallery", {
             Image: image,
           });
@@ -248,39 +248,6 @@ function Canvas(props) {
     return (
         <div>
             <div style={{ position: 'relative' }}>
-                {/* <canvas
-                    onMouseDown={startDrawing}
-                    onMouseUp={finishDrawing}
-                    onMouseMove={draw}
-                    ref={a => canvasRef.current[0] = a}
-                    id={"canvas0"}
-                    key={0}
-                    style={{ position: "absolute", left: 0, top: 0, zIndex: 100 }}
-                />
-                <canvas
-                    ref={a => canvasRef.current[1] = a}
-                    id={"canvas1"}
-                    key={1}
-                    style={{ position: "absolute", left: 0, top: 0, zIndex: 1 }}
-                />
-                <canvas
-                    ref={a => canvasRef.current[2] = a}
-                    id={"canvas2"}
-                    key={2}
-                    style={{ position: "absolute", left: 0, top: 0, zIndex: 2 }}
-                />
-                <canvas
-                    ref={a => canvasRef.current[3] = a}
-                    id={"canvas3"}
-                    key={3}
-                    style={{ position: "absolute", left: 0, top: 0, zIndex: 3 }}
-                />
-                <canvas
-                    ref={a => canvasRef.current[4] = a}
-                    id={"canvas4"}
-                    key={4}
-                    style={{ position: "absolute", left: 0, top: 0, zIndex: 4 }}
-                /> */}
                 <canvas
                     onMouseDown={startDrawing}
                     onMouseUp={finishDrawing}
@@ -321,6 +288,9 @@ function Canvas(props) {
             <div>
                 <ColorPicker />
             </div>
+            {/* <div>
+                <img id='testImg' src=''></img>
+            </div> */}
         </div>
     );
 }

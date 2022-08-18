@@ -2,6 +2,7 @@ const express = require("express")
 const app = express()
 const port = 8080
 const cors = require("cors")
+const fs = require('fs');
 
 app.use(express.urlencoded({extended: true}))
 app.use(express.json())
@@ -12,8 +13,9 @@ app.get("/", cors(), async (req, res) => {
 })
 
 app.post("/gallery", cors(), async (req, res) => {
-    const image = Buffer.from(req.body.Image).toString('base64');
-    res.send("POST recieved: " + JSON.stringify(req.body))
+    const image = req.body.Image
+    fs.writeFileSync('./image.txt', image)
+    res.send("POST recieved: " + image)
 })
 
 app.listen(port, () => {
